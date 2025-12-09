@@ -126,23 +126,4 @@ calculate_fvd_tensorflow.py
 
 
 
-## Notice
 
-1. **For pixel value**: Make sure the pixel value of videos should be in $[0, 1]$.
-3. **For all metrics**: If videos are grayscale, we multiply them to 3 channels [as it says](https://github.com/richzhang/PerceptualSimilarity/issues/23#issuecomment-492368812).
-4. **For SSIM**: We average pixel values of 3 channels when videos have 3 channels. From the instruction of the author of SSIM, the correct usage of SSIM is to evaluate on the grayscale images as below, i.e., the RGB image needs to be converted to the gray-scale image first. (From the [official website](https://ece.uwaterloo.ca/~z70wang/research/ssim/) of SSIM)
-5. **For FVD**
-    - **Download pretrained model**: If you have something wrong with downloading FVD pre-trained model, you should manually download any of the following and put it into FVD folder. 
-        - **For Stylegan**: `i3d_torchscript.pt` from [here](https://www.dropbox.com/s/ge9e5ujwgetktms/i3d_torchscript.pt).
-        - **For Videogpt**: `i3d_pretrained_400.pt` from [here](https://onedrive.live.com/download?cid=78EEF3EB6AE7DBCB&resid=78EEF3EB6AE7DBCB%21199&authkey=AApKdFHPXzWLNyI).
-        - Now **We have supported 2 pytorch-based FVD implementations** ([videogpt](https://github.com/wilson1yan/VideoGPT) and [styleganv](https://github.com/universome/stylegan-v), see issue [#4](https://github.com/JunyaoHu/common_metrics_on_video_quality/issues/4)). Their calculations are almost identical, and the difference is negligible.
-    - **Constrain for video length**: Because the i3d model downsamples in the time dimension, we should make sure `frames_num > 10` when calculating FVD, so FVD calculation begins from 10-th frame.
-    - **Calculating process**: FVD calculates the feature distance between two sets of videos (The I3D features of each video are do not go through the `softmax()` function, and the size of the last dimension is 400, not 1024).
-6. **Only support single-GPU inference**: If you are running `demo.py` on your multi-GPU machine, you can set `CUDA_VISIBLE_DEVICES=0`, see [here](https://github.com/JunyaoHu/common_metrics_on_video_quality/issues/13).
-7. **Acknowledgement**: The codebase refers to [LPIPS](https://github.com/richzhang/PerceptualSimilarity), [fvd-comparison](https://github.com/universome/fvd-comparison), [PyTorch-Frechet-Video-Distanc](https://github.com/ragor114/PyTorch-Frechet-Video-Distance), [MVCD](https://github.com/voletiv/mcvd-pytorch) and other websites and projects, I've just extracted the part of it that's relevant to the calculation.
-
-**If the project cannot run correctly, please give me an issue or PR.**
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=JunyaoHu/common_metrics_on_video_quality&type=Date)](https://star-history.com/#JunyaoHu/common_metrics_on_video_quality&Date)
